@@ -27,12 +27,7 @@ public class XMLMapperBuilder {
 
 
         // select
-        // List<Element> list = rootElement.selectNodes("//select");
         List<Element> list = rootElement.selectNodes("//select");
-
-        // delete
-//        listList.add((List<Element>) rootElement.selectNodes("//delete"));
-
 
         for (Element element : list) {
             String id = element.attributeValue("id");
@@ -52,6 +47,23 @@ public class XMLMapperBuilder {
         // update
         List<Element> updateList = rootElement.selectNodes("//update");
         for (Element element : updateList) {
+            String id = element.attributeValue("id");
+            String resultType = element.attributeValue("resultType");
+            String paramterType = element.attributeValue("paramterType");
+            String sqlText = element.getTextTrim();
+            MappedStatement mappedStatement = new MappedStatement();
+            mappedStatement.setId(id);
+            mappedStatement.setResultType(resultType);
+            mappedStatement.setParamterType(paramterType);
+            mappedStatement.setSql(sqlText);
+            String key = namespace + "." + id;
+            configuration.getMappedStatementMap().put(key, mappedStatement);
+
+        }
+
+        // delete
+        List<Element> deleteList = rootElement.selectNodes("//delete");
+        for (Element element : deleteList) {
             String id = element.attributeValue("id");
             String resultType = element.attributeValue("resultType");
             String paramterType = element.attributeValue("paramterType");

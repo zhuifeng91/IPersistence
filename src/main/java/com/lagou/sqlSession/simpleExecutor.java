@@ -45,7 +45,7 @@ public class simpleExecutor implements Executor {
             Field declaredField = paramtertypeClass.getDeclaredField(content);
             //暴力访问
             declaredField.setAccessible(true);
-            Object o = declaredField.get(params[0]);
+            Object o = declaredField.get(params[i]);
 
             preparedStatement.setObject(i + 1, o);
 
@@ -115,8 +115,8 @@ public class simpleExecutor implements Executor {
 
     }
 
-    @Override
-    public void update(Configuration configuration, MappedStatement mappedStatement, Object[] params) throws Exception {
+    @Override                                                                           //User
+    public void update(Configuration configuration, MappedStatement mappedStatement, Object... params) throws Exception {
         // 1. 注册驱动，获取连接
         Connection connection = configuration.getDataSource().getConnection();
 
@@ -133,13 +133,15 @@ public class simpleExecutor implements Executor {
         String paramterType = mappedStatement.getParamterType();
         Class<?> paramtertypeClass = getClassType(paramterType);
 
+//        preparedStatement.setObject(1, param);
+
         List<ParameterMapping> parameterMappingList = boundSql.getParameterMappingList();
         for (int i = 0; i < parameterMappingList.size(); i++) {
             ParameterMapping parameterMapping = parameterMappingList.get(i);
-            String content = parameterMapping.getContent();
+            String content = parameterMapping.getContent(); //实体类的属性
 
             //反射
-            Field declaredField = paramtertypeClass.getDeclaredField(content);
+            Field declaredField = paramtertypeClass.getDeclaredField(content);  //属性对象
             //暴力访问
             declaredField.setAccessible(true);
             Object o = declaredField.get(params[0]);
@@ -148,8 +150,9 @@ public class simpleExecutor implements Executor {
 
         }
 
-
         // 5. 执行sql
-        preparedStatement.executeQuery();
+        preparedStatement.executeUpdate();
+
     }
+
 }

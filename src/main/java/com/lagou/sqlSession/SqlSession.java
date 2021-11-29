@@ -10,7 +10,7 @@ public interface SqlSession {
     //根据条件查询单个
     public <T> T selectOne(String statementid, Object... params) throws Exception;
 
-    public void update(String statementid, Object... params) throws Exception;
+    public void update(String statementid, Object...  params) throws Exception;
 
     public void delete(String statementid, Object... params) throws Exception;
 
