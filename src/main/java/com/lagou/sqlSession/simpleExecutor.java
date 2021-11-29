@@ -154,5 +154,4 @@ public class simpleExecutor implements Executor {
         preparedStatement.executeUpdate();
 
     }
-
 }
