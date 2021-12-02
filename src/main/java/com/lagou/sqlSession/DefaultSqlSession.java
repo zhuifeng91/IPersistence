@@ -49,10 +49,13 @@ public class DefaultSqlSession implements SqlSession {
 
     @Override
     public void delete(String statementid, Object...  params) throws Exception {
-        simpleExecutor simpleExecutor = new simpleExecutor();
-        MappedStatement mappedStatement = configuration.getMappedStatementMap().get(statementid);
-        simpleExecutor.update(configuration, mappedStatement, params);
+        update(statementid,params);
 
+    }
+
+    @Override
+    public void insert(String statementid, Object... params) throws Exception {
+        update(statementid,params);
     }
 
     @Override
